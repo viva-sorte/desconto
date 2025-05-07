@@ -1,0 +1,563 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viva Sorte</title>
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="css2" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+
+  <style>
+    .barra-destaque {
+      background-color: #2f4eb5;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin: 0 auto 15px auto;
+      max-width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 9;
+    }
+
+    .barra-destaque span {
+      color: #ffdd57;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .barra-fixa {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-radius: 0;
+      margin: 0;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+<script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script><style>
+    .cota {
+      transition: all 0.3s ease;
+    }
+    .cota-selected {
+      border: 3px solid #28a745;
+      box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+    }
+    .adc-carrinho {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #ccc;
+      color: #fff;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+    .adc-carrinho.ativo {
+      background-color: #3ddc84; /* tom mais verdinho */
+    }
+  </style><style>
+  .blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    display: none;
+  }
+
+  .notificacao-premio {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #e0f7ff;
+    color: #003366;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 153, 255, 0.4);
+    z-index: 9999;
+    width: 90%;
+    max-width: 420px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .notificacao-premio p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .notificacao-premio .titulo {
+    font-size: 22px;
+    color: #007BFF;
+    font-weight: bold;
+  }
+
+  .notificacao-premio .premio {
+    font-size: 22px;
+    color: #ff6600;
+    font-weight: bold;
+  }
+
+  .notificacao-premio strong {
+    color: #007BFF;
+  }
+
+  .notificacao-premio button {
+    background-color: #007BFF;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 25px;
+    font-size: 16px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .notificacao-premio button:hover {
+    background-color: #0056b3;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
+</style></head>
+
+
+  
+
+
+<body>
+  <!-- SOBREPOSIÇÃO COM DESFOQUE -->
+  <div class="blur-overlay" id="blurOverlay"></div>
+
+  <!-- NOTIFICAÇÃO CENTRALIZADA -->
+  <div class="notificacao-premio" id="notificacaoPremio">
+  <p class="titulo">🎉 <strong>VOCÊ GANHOU!</strong> 🎉</p>
+  <p>Você acaba <strong>de ganhar 100 BILHETES grátis </strong>para o próximo sorteio<br>ao adquirir seus bilhetes com <strong>50% de DESCONTO</strong> agora mesmo!</p>
+  <p class="premio">50% DE DESCONTO</p>
+  <p class="premio">100 BILHETES (BÔNUS)</p>
+  <button onclick="fecharNotificacao()">RESGATAR PRÊMIOS</button>
+</div>
+
+
+
+<script>
+  function fecharNotificacao() {
+    document.getElementById('notificacaoPremio').style.display = 'none';
+    document.getElementById('blurOverlay').style.display = 'none';
+  }
+
+  window.onload = function () {
+    setTimeout(() => {
+      document.getElementById('notificacaoPremio').style.display = 'block';
+      document.getElementById('blurOverlay').style.display = 'block';
+    }, 500);
+  }
+</script>
+
+
+
+
+
+  <header class="white-header">
+    <div class="logo">
+      <img src="images/logoviva.png" alt="Logomarca" class="logoviva">
+    </div>
+    <button class="menu-button" id="menuButton">
+      0 <!-- Ícone de três linhas -->
+    </button>
+  </header>
+
+  <!-- BARRA DE TEXTO BONITA E ALINHADA -->
+  <div class="barra-destaque">
+    Na compra de qualquer cota com desconto você <span>+100 BILHETES</span> para o próximo sorteio totalmente de graça!
+  </div>
+
+  <!-- Aqui começa o restante do conteúdo da página -->
+  <div class="banner">
+    <div class="container-banner">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="tag-compre-agora">
+              <span>Site Oficial</span>
+            </div>
+            <img src="images/1m.jpg" class="d-block w-100" alt="...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA FIXA AO FINAL DA PÁGINA -->
+  <div class="barra-destaque barra-fixa" id="barraFixa">
+    Na compra de qualquer cota com desconto você ganha <span>+100 BILHETES</span> para o próximo sorteio totalmente de graça!
+  </div>
+
+  <!-- Script para exibir barra ao rolar -->
+  <script>
+    window.addEventListener('scroll', function () {
+      const barra = document.getElementById('barraFixa');
+      if (window.scrollY > 100) {
+        barra.style.display = 'block';
+      } else {
+        barra.style.display = 'none';
+      }
+    });
+  </script>
+
+
+
+
+
+
+  <script>
+  function atualizarContador() {
+      // Obter o elemento span pelo ID
+      var span = document.getElementById('contador');
+  
+      // Obter a data atual
+      var hoje = new Date();
+  
+      // Calcular o número de dias restantes até o próximo domingo (0 para domingo, 1 para segunda-feira, ..., 6 para sábado)
+      var diasRestantes = 5 - hoje.getDay();
+  
+      // Se for domingo, reinicie o contador para 7 dias
+      if (diasRestantes === 0) {
+          diasRestantes = 0;
+      }
+  
+      // Atualizar o conteúdo do span
+      span.textContent = diasRestantes === 1 ? '1 dia' : diasRestantes + ' dias';
+  }
+  
+  // Chamar a função para atualizar o contador quando a página carregar
+  atualizarContador();
+  
+  // Chamar a função para atualizar o contador a cada 24 horas
+  setInterval(atualizarContador, 24 * 60 * 60 * 1000);
+  </script>
+
+<div class="container-principal">
+  <!-- COTAS COM DESCONTO -->
+  <div class="cotas" style="padding: 10px;">
+    <div class="cotas-one" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+
+      <!-- Cota 15 - 30% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(15)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">30% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+15</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$14,85</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$10,40</div>
+      </button>
+
+      <!-- Cota 30 - 50% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(30)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">50% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+30</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$29,70</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$14,85</div>
+      </button>
+
+      <!-- Cota 40 - 50% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(40)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">50% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+40</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$39,60</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$19,80</div>
+      </button>
+
+      <!-- Cota 70 - 50% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(70)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">50% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+70</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$69,30</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$34,65</div>
+      </button>
+
+      <!-- Cota 100 - 50% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(100)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">50% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+100</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$99,00</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$49,50</div>
+      </button>
+
+      <!-- Cota 200 - 50% OFF -->
+      <button type="button" class="cota" onclick="selecionarValor(200)" style="background-color: #2f4eb5; color: #fff; border-radius: 10px; width: 100px; padding: 10px; position: relative;">
+        <div style="position: absolute; top: 4px; left: 4px; background: red; color: white; font-size: 10px; padding: 2px 4px; border-radius: 4px;">50% OFF</div>
+        <div class="cota-qtd" style="font-weight: bold;">+200</div>
+        <div style="color: #00ff66; font-size: 12px;">100 grátis</div>
+        <div style="text-decoration: line-through; font-size: 12px;">R$199,00</div>
+        <div style="font-weight: bold; font-size: 16px; color: #00ff66;">R$99,50</div>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+
+  <!-- SELETOR DE QUANTIDADE -->
+  <div class="contador-cotas" style="display: flex; justify-content: center; align-items: center; background-color: #2f4eb5; padding: 10px; border-radius: 10px; max-width: 330px; margin: 20px auto;">
+    <button type="button" class="btn-contador-cotas" onclick="decrementar()" style="background: transparent; border: 2px solid white; color: white; font-size: 18px; border-radius: 50%; width: 30px; height: 30px;">-</button>
+    <input type="number" id="numero" class="input-contador-cotas" value="0" min="0" style="width: 80px; text-align: center; font-size: 20px; border: none; margin: 0 10px; border-radius: 5px;" oninput="highlightButton()">
+    <button type="button" class="btn-contador-cotas" onclick="incrementar()" style="background: transparent; border: 2px solid white; color: white; font-size: 18px; border-radius: 50%; width: 30px; height: 30px;">+</button>
+  </div>
+
+  <!-- TOTAL E BOTÃO DE COMPRA -->
+  <div class="valor-total-box" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+    <span>Total: <span id="valor-total">R$ 0,00</span></span>
+  </div>
+
+
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viva Sorte</title>
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="css2" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+  <style>
+    .cota {
+      transition: all 0.3s ease;
+    }
+    .cota-selected {
+      border: 3px solid #28a745;
+      box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+    }
+    .adc-carrinho {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #ccc;
+      color: #fff;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+    .adc-carrinho.ativo {
+      background-color: #28a745; /* tom mais verdinho */
+    }
+  </style>
+
+
+
+  <div class="container-principal">
+    <button type="button" id="btn-adicionar-carrinho" class="adc-carrinho ativo" onclick="adicionarAoCarrinho()" disabled="" style="width: 100%; max-width: 330px; margin: 0 auto; display: block; background-color: #28a745; color: #fff; border: none; padding: 12px; font-size: 16px; border-radius: 8px;">
+      <i class="bi bi-cart-fill"></i> COMPRAR TÍTULOS
+    </button>
+  </div>
+
+
+
+
+
+  
+  
+    <div class="sorteio-date w-100 text-center" style="margin-top: 5px;">
+      <br>
+      <h1 style="font-size: 0.72rem;">Comprar mais títulos aumenta suas chances de ganhar!</h1>
+  
+      <div class="container-principal">
+        <div class="hospital">
+  
+          <div class="card-hospital">
+              <div class="card-hospital-image">
+                  <img src="images/logo-hospital.svg">
+                  <h2>Instituição beneficiada</h2>
+              </div>
+              <div class="card-hospital-text">
+                  <p>O Hospital do Câncer de Londrina, fundado em 08 de novembro de 1965 por Lucilla Pinto Ballalai, foi originalmente chamado Centro Norte Paranaense de Pesquisas Médicas. Criado com o objetivo de melhorar o tratamento do câncer e a qualidade de vida, o hospital focava inicialmente na prevenção do câncer de colo de útero entre as mulheres de Londrina e região. A instituição sempre buscou aprimorar seus recursos humanos, científicos e tecnológicos.</p>
+              </div>
+          </div>
+          
+          <div class="card-hospital card-hospital-bg-azul">
+              <div class="card-hospital-image">
+                  <img src="images/viva-hosp.svg">
+                  <h2>Viva Privilégios</h2>
+              </div>
+              <div class="card-hospital-text">
+                  <p>Viva Privilégios, um programa que enriquece sua vida com acesso ���� saúde, alimentação, transporte e mais. Com cada compra, acumule pontos para trocar por consultas médicas, receber cashback, e utilizar serviços de telefonia e apps de transporte e alimentação. Eleve sua qualidade de vida e desfrute de mais conveniência e economia!</p>
+              </div>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  
+  
+    
+    <link href="css/rodape.css" rel="stylesheet">
+  
+  
+  <div class="rodape">
+      <div class="container-principal">
+          <img class="logo-rodape" src="images/logoviva.png">
+  
+          <div class="redes">
+              <i class="bi bi-instagram"></i>
+              <i class="bi bi-facebook"></i>
+              <i class="bi bi-twitter"></i>
+              <i class="bi bi-youtube"></i>
+          </div>
+  
+          <h1>Sorteios lastreados por Títulos de Capitalização, da Modalidade Incentivo, emitidos pela VIA Capitalização S.A, inscrita no CNPJ sob nº 88.076.302/0001-94, e aprovados pela SUSEP através do registro na SUSEP Sorteio n° 15414.652257/2023-51. O valor das premiações aqui indicados são líquidos, já descontado o devido imposto de renda de 25%. O registro deste plano na SUSEP não implica, por parte da Autarquia, incentivo ou recomendação a sua comercialização.</h1>
+          
+          <div class="linha-rodape"></div>
+  
+          <div class="patterns-rodape">
+              <div class="pattern-rodape">
+                  Títulos emitidos por:
+                  <img src="images/viacap.png">
+              </div>
+  
+              <div class="pattern-rodape">
+                  Promoção realizada por:
+                  <img src="images/viva.png">
+              </div>
+  
+              <div class="pattern-rodape">
+                  Desenvolvimento:
+                  <img src="images/edjdigital.png">
+              </div>
+          </div>
+      </div>
+  </div>
+  
+    <!-- BOTÃO + E - -->
+    
+    
+<script>
+  function getPrecoComDesconto(valor) {
+    if (valor === 15) return 10.40;
+    if (valor === 30) return 14.85;
+    if (valor === 40) return 19.80;
+    if (valor === 70) return 34.65;
+    if (valor === 100) return 49.50;
+    if (valor === 200) return 99.50;
+    return 0;
+  }
+
+  function highlightButton() {
+    const input = document.getElementById('numero');
+    const valorAtual = parseInt(input.value);
+    const botoesCotas = document.querySelectorAll('.cota');
+    const botaoAdicionarCarrinho = document.getElementById('btn-adicionar-carrinho');
+    const valorTotal = document.getElementById('valor-total');
+
+    let link = '';
+    let preco = getPrecoComDesconto(valorAtual);
+
+    botoesCotas.forEach(function (botao) {
+      botao.classList.remove('cota-selected');
+      const valorBotao = parseInt(botao.querySelector('.cota-qtd').innerText.trim().replace('+', ''));
+      if (valorBotao === valorAtual) {
+        botao.classList.add('cota-selected');
+        botaoAdicionarCarrinho.classList.add('ativo');
+
+        switch (valorBotao) {
+          case 15:
+            link = "https://pay.compraeguraapay.com.br/checkout/2c0e8485-be8c-4431-9c12-f4a62fd4a049";
+            break;
+          case 30:
+            link = "https://pay.compraeguraapay.com.br/checkout/b7370cc0-0a53-4251-967d-88af4330bae6";
+            break;
+          case 40:
+            link = "https://pay.compraeguraapay.com.br/checkout/e35d598f-da22-4ebb-875d-d7e71e3a58a3";
+            break;
+          case 70:
+            link = "https://pay.compraeguraapay.com.br/checkout/b001d12d-8e58-42d5-bfd6-415bd530436d";
+            break;
+          case 100:
+            link = "https://pay.compraeguraapay.com.br/checkout/86c0cc48-a26c-4728-aeb2-8fc0bec9c1ea";
+            break;
+          case 200:
+            link = "https://pay.compraeguraapay.com.br/checkout/1c9275f2-3689-4de5-ae22-77e68a2654f5";
+            break;
+        }
+
+        botaoAdicionarCarrinho.setAttribute('onclick', 'adicionarAoCarrinho(\"' + link + '\")');
+      }
+    });
+
+    if (valorAtual === 0 || isNaN(valorAtual)) {
+      botaoAdicionarCarrinho.disabled = true;
+      botaoAdicionarCarrinho.classList.remove('ativo');
+      valorTotal.innerText = "R$ 0,00";
+    } else {
+      botaoAdicionarCarrinho.disabled = false;
+      valorTotal.innerText = "R$ " + preco.toFixed(2).replace('.', ',');
+    }
+  }
+
+  function selecionarValor(valor) {
+    document.getElementById('numero').value = valor;
+    highlightButton();
+  }
+
+  function adicionarAoCarrinho(link) {
+    window.location.href = link + window.location.search;
+  }
+
+  function incrementar() {
+    const input = document.getElementById('numero');
+    let valor = parseInt(input.value);
+    const valores = [15, 30, 40, 70, 100, 200];
+    const proximo = valores.find(v => v > valor) || 200;
+    input.value = proximo;
+    highlightButton();
+  }
+
+  function decrementar() {
+    const input = document.getElementById('numero');
+    let valor = parseInt(input.value);
+    const valores = [15, 30, 40, 70, 100, 200];
+    const anterior = [...valores].reverse().find(v => v < valor) || 15;
+    input.value = anterior;
+    highlightButton();
+  }
+
+  document.getElementById('numero').addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    highlightButton();
+  });
+</script>
+
+
+
+
+
+</body></html>
